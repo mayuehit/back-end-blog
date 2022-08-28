@@ -1,44 +1,43 @@
-import express from 'express'
-// var express = require('express');
+"use strict";
+import express from "express";
+import blog_ctrl from "./blog_ctrl.js";
 var app = express();
- 
-//  主页输出 "Hello World"
-app.get('/', function (req, res) {
-   console.log("主页 GET 请求");
-   res.send('Hello GET');
-})
- 
- 
-//  POST 请求
-app.post('/', function (req, res) {
-   console.log("主页 POST 请求");
-   res.send('Hello POST');
-})
- 
-//  /del_user 页面响应
-app.get('/del_user', function (req, res) {
-   console.log("/del_user 响应 DELETE 请求");
-   res.send('删除页面');
-})
- 
-//  /list_user 页面 GET 请求
-app.get('/list_user', function (req, res) {
-   console.log("/list_user GET 请求");
-   res.send('用户列表页面');
-})
- 
-// 对页面 abcd, abxcd, ab123cd, 等响应 GET 请求
-app.get('/ab*cd', function(req, res) {   
-   console.log("/ab*cd GET 请求");
-   res.send('正则匹配');
-})
- 
- 
+
+// post blog
+app.post("/xxx", function (req, res) {
+  // get req
+  var blog = JSON.stringify(req.body);
+  console.log(blog);
+  // deal post
+  var result = blog_ctrl.postBlog(blog);
+  // reply
+  res.send(`post blog result:${result}`);
+});
+
+// get hot blogs
+app.get("/xxx", function (req, res) {
+  var blogs = blog_ctrl.getHotBlogs();
+  console.log(blogs);
+  res.send(blogs);
+});
+
+// get all blog brief info list
+app.get("/xxx", function (req, res) {
+   var blogList = blog_ctrl.listAllBlog();
+   console.log(blogList);
+   res.send(blogList);
+ });
+
+ // get specifical blog complete info
+ app.get("/xxx", function (req, res) {
+   var blog = blog_ctrl.getBlog();
+   console.log(blog);
+   res.send(blog);
+ });
+
 var server = app.listen(8081, function () {
- 
-  var host = server.address().address
-  var port = server.address().port
- 
-  console.log("应用实例，访问地址为 http://%s:%s", host, port)
- 
-})
+  var host = server.address().address;
+  var port = server.address().port;
+
+  console.log("应用实例，访问地址为 http://%s:%s", host, port);
+});
