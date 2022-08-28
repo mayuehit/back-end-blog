@@ -6,8 +6,8 @@ export default {
     return "";
   },
   getHotBlogs: function () {
-    var result = mysql_deal.queryRecentSome(3);
-    return "";
+    var result =  mysql_deal.queryRecentSome(3);
+    return result;
   },
   listAllBlog: function () {
     var result = mysql_deal.query();

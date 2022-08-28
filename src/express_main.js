@@ -4,7 +4,7 @@ import blog_ctrl from "./blog_ctrl.js";
 var app = express();
 
 // post blog
-app.post("/xxx", function (req, res) {
+app.post("/ho", function (req, res) {
   // get req
   var blog = JSON.stringify(req.body);
   console.log(blog);
@@ -15,10 +15,13 @@ app.post("/xxx", function (req, res) {
 });
 
 // get hot blogs
-app.get("/xxx", function (req, res) {
-  var blogs = blog_ctrl.getHotBlogs();
-  console.log(blogs);
-  res.send(blogs);
+app.get("/hotblogs", function (req, res) {
+  blog_ctrl.getHotBlogs().then(blogs=>{
+    console.log(blogs);
+    res.send(blogs);
+  }).catch(err=>{
+    console.log(err);
+  });
 });
 
 // get all blog brief info list

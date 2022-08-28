@@ -56,27 +56,29 @@ export default {
     connection.end();
   },
   queryRecentSome: function (num) {
-    var connection = getConnection();
-    connection.connect();
     // exist rist for sql inject
-    var query_sql = `SELECT * FROM blog_tb1 LIMIT 0,${num}`;
-    connection.query(query_sql, function (err, result) {
-      if (err) {
-        console.log("[SELECT ERROR] - ", err.message);
-        return;
-      }
-
-      console.log(
-        "--------------------------SELECT----------------------------"
-      );
-      console.log(result);
-      console.log(
-        "------------------------------------------------------------\n\n"
-      );
+    return new Promise((resolve, reject) => {
+      var connection = getConnection();
+      connection.connect();
+      var query_sql = `SELECT * FROM blog_tb1 LIMIT 0,${num}`;
+      connection.query(query_sql, function (err, result) {
+        if (err) {
+          console.log("[SELECT ERROR] - ", err.message);
+          reject(err);
+        }
+        console.log(
+          "--------------------------SELECT----------------------------"
+        );
+        console.log(result);
+        resolve(result);
+        console.log(
+          "------------------------------------------------------------\n\n"
+        );
+      });
+      connection.end();
     });
-    connection.end();
   },
-  delete:function(blog_id){
+  delete: function (blog_id) {
     var connection = getConnection();
     connection.connect();
     // exist rist for sql inject
@@ -86,7 +88,9 @@ export default {
         console.log("[DELETE ERROR] - ", err.message);
         return;
       }
-      console.log("--------------------------DELETE----------------------------");
+      console.log(
+        "--------------------------DELETE----------------------------"
+      );
       console.log("DELETE affectedRows", result.affectedRows);
       console.log(
         "-----------------------------------------------------------------\n\n"
@@ -94,7 +98,5 @@ export default {
     });
     // if 100% could go here
     connection.end();
-  }
+  },
 };
-
-
